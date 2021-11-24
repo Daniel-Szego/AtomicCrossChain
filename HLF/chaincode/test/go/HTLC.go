@@ -21,13 +21,15 @@ type SmartContract struct {
 // InitLedger
 func (s *SmartContract) InitLedger(ctx contractapi.TransactionContextInterface) error {
 
-	dataByteBob := []byte("300")
+//	dataByteBob := []byte("300")
 
-	ctx.GetStub().PutState("Bob", dataByteBob)
+//	ctx.GetStub().PutState("Bob", dataByteBob)
 
-	dataByte := []byte("200")
+//	dataByte := []byte("200")
 
-	return ctx.GetStub().PutState("Alice", dataByte)
+//	return ctx.GetStub().PutState("Alice", dataByte)
+
+	return nil
 }
 
 // Get Balance of an account

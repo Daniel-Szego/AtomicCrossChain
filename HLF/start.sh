@@ -186,11 +186,11 @@ echo "##### Get Balance #########"
 echo ""
 
 docker exec cli-setup \
-peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Alice"]}'
+peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Bob"]}'
 
 
 docker exec cli-setup \
-peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Bob"]}'
+peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Alice"]}'
 
 
 echo ""
@@ -213,18 +213,18 @@ peer chaincode invoke \
 -C devchannel -n test \
 --peerAddresses peer0.org1.example.com:7051 \
 --tlsRootCertFiles /etc/hyperledger/crypto/peer/tls/ca.crt \
--c '{"Args":["MintToken","Bob","100"]}' --waitForEvent
+-c '{"Args":["MintToken","Bob","200"]}' --waitForEvent
 
 echo ""
 echo "##### Get Balance #########"
 echo ""
 
 docker exec cli-setup \
-peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Alice"]}'
-
+peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Bob"]}'
 
 docker exec cli-setup \
-peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Bob"]}'
+peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Alice"]}'
+
 
 echo ""
 echo "##### Transfer #########"
@@ -237,18 +237,19 @@ peer chaincode invoke \
 -C devchannel -n test \
 --peerAddresses peer0.org1.example.com:7051 \
 --tlsRootCertFiles /etc/hyperledger/crypto/peer/tls/ca.crt \
--c '{"Args":["Transfer","Alice","Bob","50"]}' --waitForEvent
+-c '{"Args":["Transfer","Bob","Alice","50"]}' --waitForEvent
 
 echo ""
 echo "##### Get Balance #########"
 echo ""
 
 docker exec cli-setup \
-peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Alice"]}'
+peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Bob"]}'
 
 
 docker exec cli-setup \
-peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Bob"]}'
+peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Alice"]}'
+
 
 echo ""
 echo "##### Transfer Conditional #########"
@@ -261,7 +262,7 @@ peer chaincode invoke \
 -C devchannel -n test \
 --peerAddresses peer0.org1.example.com:7051 \
 --tlsRootCertFiles /etc/hyperledger/crypto/peer/tls/ca.crt \
--c '{"Args":["TransferConditional","htlc1", "Alice","Bob","50", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "2020-11-12T11:45:26.371Z"]}' --waitForEvent
+-c '{"Args":["TransferConditional","htlc1", "Bob","Alice","50", "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8", "2022-11-12T11:45:26.371Z"]}' --waitForEvent
 
 echo ""
 echo "##### Getting the created hashtimelock #########"
@@ -269,6 +270,18 @@ echo ""
 
 docker exec cli-setup \
 peer chaincode query -C devchannel -n test -c '{"Args":["GetHashTimeLock","htlc1"]}'
+
+echo ""
+echo "##### Get Balance #########"
+echo ""
+
+docker exec cli-setup \
+peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Bob"]}'
+
+
+docker exec cli-setup \
+peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Alice"]}'
+
 
 echo ""
 echo "##### Commit #########"
@@ -282,6 +295,30 @@ peer chaincode invoke \
 --peerAddresses peer0.org1.example.com:7051 \
 --tlsRootCertFiles /etc/hyperledger/crypto/peer/tls/ca.crt \
 -c '{"Args":["Commit","htlc1","password"]}' --waitForEvent
+
+echo ""
+echo "##### Revert #########"
+echo ""
+
+#docker exec cli-setup \
+#peer chaincode invoke \
+#-o orderer.example.com:7050 \
+#--tls --cafile /etc/hyperledger/crypto/orderer/msp/tlscacerts/tlsca.example.com-cert.pem \
+#-C devchannel -n test \
+#--peerAddresses peer0.org1.example.com:7051 \
+#--tlsRootCertFiles /etc/hyperledger/crypto/peer/tls/ca.crt \
+#-c '{"Args":["Revert","htlc1"]}' --waitForEvent
+
+
+echo ""
+echo "##### Get Balance #########"
+echo ""
+
+docker exec cli-setup \
+peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Bob"]}'
+
+docker exec cli-setup \
+peer chaincode query -C devchannel -n test -c '{"Args":["GetBalance","Alice"]}'
 
 
 echo

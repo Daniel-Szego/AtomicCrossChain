@@ -185,6 +185,9 @@ func (s *SmartContract) Commit (ctx contractapi.TransactionContextInterface, loc
 	// delete lock
 	ctx.GetStub().DelState(lock_id)
 
+	// rasie event
+	ctx.GetStub().SetEvent("Commit", []byte(preimage))
+
 	fmt.Println("success commit")
 	return "success commit"
 }

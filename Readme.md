@@ -15,3 +15,19 @@ Hyperledger Fabric, simple value transfer between Bob and Alice and a HTLC imple
   - TransferConditional: transferring conditional with timelock and hashlock
   - Commit: finalize transfer with the password
   - Revert: revert the password
+
+Atomic Cross-chain swap steps:
+
+1. Alice creates a secret passwords and creates a sha256(password) hash of it
+
+2. Alice sends sha256(password) to Bob, Alice abd Bob agress on a t timelock
+
+3. Both Alice and Bob create HTLC with sha256(password) and t timelock. Alice on Ethereum, Bob on Hyperledger Fabric
+
+4. Alice Commit the transaction on Hyperledger Fabric, so she gets the HLF token and reveals the "password"
+
+5. As the "password" is committed, Bob see it and he can commit the transaction on Ethereum, so he can get the ether. 
+
++1. If the transaction is not committed by Alice in step 4, after the timeout explires, all parties can revoke the transactions
+
+
